@@ -1,0 +1,15 @@
+{
+  "name": "紫微斗数 · 天纪",
+  "short_name": "紫微斗数",
+  "description": "倪海厦《天纪》体系紫微斗数排盘与解读，离线可用",
+  "start_url": "./index.html",
+  "scope": "./",
+  "display": "standalone",
+  "background_color": "#120e22",
+  "theme_color": "#1b1436",
+  "lang": "zh-CN",
+  "icons": [
+    { "src": "icon-180.png", "sizes": "180x180", "type": "image/png" },
+    { "src": "icon-512.png", "sizes": "512x512", "type": "image/png", "purpose": "any maskable" }
+  ]
+}

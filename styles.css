@@ -1,0 +1,27 @@
+:root{--bg:#120e22;--card:#1c1533;--ink:#efe9ff;--dim:#a99ec9;--gold:#e8c37a;--line:#2f2550}
+*{box-sizing:border-box;-webkit-tap-highlight-color:transparent}
+body{margin:0;background:var(--bg);color:var(--ink);font:16px/1.6 -apple-system,"PingFang SC",sans-serif;padding-bottom:40px}
+.top{padding:22px 18px 10px;background:linear-gradient(160deg,#251a45,#120e22)}
+.top h1{margin:0;font-size:22px;letter-spacing:1px;color:var(--gold)}
+.sub{margin:4px 0 0;color:var(--dim);font-size:13px}
+.card{margin:12px;padding:14px;background:var(--card);border:1px solid var(--line);border-radius:14px}
+.row{display:flex;gap:10px;margin-bottom:10px;flex-wrap:wrap}
+.row.two>*{flex:1 1 45%;min-width:130px}.row.three>*{flex:1 1 30%;min-width:90px}
+label{display:block;font-size:13px;color:var(--dim)}
+input,select{width:100%;margin-top:5px;padding:11px;border-radius:10px;border:1px solid var(--line);background:#151029;color:var(--ink);font-size:16px}
+button{width:100%;padding:13px;border:0;border-radius:11px;font-size:16px;font-weight:600}
+.primary{background:linear-gradient(135deg,#8b5cf6,#e8c37a);color:#1a1330}
+.ghost{background:#2a2150;color:var(--ink);border:1px solid var(--line)}
+.hint{color:var(--dim);font-size:12px;margin:8px 0 0}
+.hidden{display:none}
+h2{font-size:16px;margin:0 0 10px;color:var(--gold)}
+#summary{font-size:14px;white-space:pre-wrap;line-height:1.8}
+.p{margin:8px 0;padding:10px;border-radius:10px;background:#181231;border:1px solid #2a2150}
+.p b{color:var(--gold)}
+.tag{display:inline-block;font-size:11px;padding:1px 7px;border-radius:20px;background:#3a2c66;color:#dcd0ff;margin-right:6px}
+.aiout{white-space:pre-wrap;font-size:14px;line-height:1.8;margin-top:12px}
+.hit{margin:8px 0;padding:8px 10px;border-left:3px solid var(--gold);background:#181231;border-radius:6px;font-size:13px}
+.hit .src{color:var(--dim);font-size:11px}
+details{margin-bottom:10px}
+summary{color:var(--dim);font-size:13px;margin-bottom:8px}
+.foot{text-align:center;color:#6f6591;font-size:12px;margin-top:18px}

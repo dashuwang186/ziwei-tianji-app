@@ -1,0 +1,92 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover" />
+  <meta name="apple-mobile-web-app-capable" content="yes" />
+  <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent" />
+  <meta name="apple-mobile-web-app-title" content="紫微斗数" />
+  <meta name="theme-color" content="#1b1436" />
+  <title>紫微斗数 · 天纪</title>
+  <link rel="manifest" href="manifest.json" />
+  <link rel="apple-touch-icon" href="icon-180.png" />
+  <link rel="stylesheet" href="styles.css" />
+</head>
+<body>
+  <header class="top">
+    <h1>紫微斗数 · 天纪</h1>
+    <p class="sub">倪海厦《天纪》体系 · 离线排盘</p>
+  </header>
+
+  <section class="card form">
+    <div class="row">
+      <label>姓名（可选）<input id="name" type="text" placeholder="怎么称呼" /></label>
+    </div>
+    <div class="row two">
+      <label>性别
+        <select id="gender"><option value="male">男</option><option value="female">女</option></select>
+      </label>
+      <label>出生城市<input id="city" type="text" placeholder="如 北京" /></label>
+    </div>
+    <div class="row three">
+      <label>年<input id="year" type="number" inputmode="numeric" placeholder="1985" /></label>
+      <label>月<input id="month" type="number" inputmode="numeric" placeholder="3" /></label>
+      <label>日<input id="day" type="number" inputmode="numeric" placeholder="18" /></label>
+    </div>
+    <div class="row two">
+      <label>时辰
+        <select id="hour">
+          <option value="0">子时 23:00-01:00</option><option value="1">丑时 01:00-03:00</option>
+          <option value="2">寅时 03:00-05:00</option><option value="3">卯时 05:00-07:00</option>
+          <option value="4">辰时 07:00-09:00</option><option value="5">巳时 09:00-11:00</option>
+          <option value="6">午时 11:00-13:00</option><option value="7">未时 13:00-15:00</option>
+          <option value="8">申时 15:00-17:00</option><option value="9">酉时 17:00-19:00</option>
+          <option value="10">戌时 19:00-21:00</option><option value="11">亥时 21:00-23:00</option>
+        </select>
+      </label>
+      <label>流年<input id="targetYear" type="number" inputmode="numeric" /></label>
+    </div>
+    <button id="btnChart" class="primary">排 盘</button>
+    <p class="hint">公历 + 时辰必填。只知道大概钟点也可以，但时辰不精确会影响命宫与身宫。</p>
+  </section>
+
+  <section id="result" class="hidden">
+    <div class="card" id="summary"></div>
+    <div class="card">
+      <h2>十二宫</h2>
+      <div id="palaces"></div>
+    </div>
+    <div class="card">
+      <h2>大限 · 流年四化 · 格局</h2>
+      <div id="extra"></div>
+    </div>
+    <div class="card">
+      <h2>AI 解读</h2>
+      <details id="keyBox">
+        <summary>设置模型 API（可选）</summary>
+        <input id="apiBase" type="text" placeholder="API 地址，如 https://api.minimax.chat/v1" />
+        <input id="apiKey" type="password" placeholder="API Key（只存在本机浏览器）" />
+        <input id="model" type="text" placeholder="模型名，如 MiniMax-M3.1-Flash" />
+        <button id="btnSaveKey" class="ghost">保存到本机</button>
+        <p class="hint">不填也能用：点「复制解读请求」，把内容发到飞书/微信，Codex 就能解。</p>
+      </details>
+      <div class="row two">
+        <button id="btnCopy" class="ghost">复制解读请求</button>
+        <button id="btnAI" class="primary">直接 AI 解读</button>
+      </div>
+      <div id="aiOut" class="aiout"></div>
+    </div>
+    <div class="card">
+      <h2>倪师讲义检索（离线）</h2>
+      <input id="kw" type="text" placeholder="如：化忌 / 紫微 天府 / 宫干自化" />
+      <button id="btnSearch" class="ghost">查讲义原文</button>
+      <div id="hits"></div>
+    </div>
+    <p class="foot">传统命理文化参考，不作为医疗、投资、婚恋决策依据。</p>
+  </section>
+
+  <script src="engine.js"></script>
+  <script src="tianji-index.js"></script>
+  <script src="app.js"></script>
+</body>
+</html>
