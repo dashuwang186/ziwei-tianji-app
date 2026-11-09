@@ -63,12 +63,12 @@
     <div class="card">
       <h2>AI 解读</h2>
       <details id="keyBox">
-        <summary>设置模型 API（可选）</summary>
+        <summary id="keySummary">模型配置（MiniMax）</summary>
         <input id="apiBase" type="text" placeholder="API 地址，如 https://api.minimax.chat/v1" />
         <input id="apiKey" type="password" placeholder="API Key（只存在本机浏览器）" />
         <input id="model" type="text" placeholder="模型名，如 MiniMax-M3.1-Flash" />
         <button id="btnSaveKey" class="ghost">保存到本机</button>
-        <p class="hint">不填也能用：点「复制解读请求」，把内容发到飞书/微信，Codex 就能解。</p>
+        <p class="hint">Key 只保存在这台手机。没有额度时可点「复制解读请求」发到 Codex。</p>
       </details>
       <div class="row two">
         <button id="btnCopy" class="ghost">复制解读请求</button>
