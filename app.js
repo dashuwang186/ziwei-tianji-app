@@ -3,6 +3,30 @@ const BR = ['子','丑','寅','卯','辰','巳','午','未','申','酉','戌','�
 const STEMS = ['甲','乙','丙','丁','戊','己','庚','辛','壬','癸'];
 let LAST = null;
 
+function refreshKeyState(){
+  const ready = !!(localStorage.getItem('zw_api_base') && localStorage.getItem('zw_api_key'));
+  const model = localStorage.getItem('zw_model') || 'MiniMax-M3.1-Flash';
+  $('#keySummary').textContent = ready ? 'MiniMax 已配置 · '+model : '模型配置（MiniMax）';
+}
+
+(function applySetup(){
+  const m = location.hash.match(/^#setup=([A-Za-z0-9_-]+)$/);
+  if(!m) return;
+  try{
+    const b64 = m[1].replace(/-/g,'+').replace(/_/g,'/');
+    const bin = atob(b64.padEnd(Math.ceil(b64.length/4)*4,'='));
+    const bytes = Uint8Array.from(bin, c=>c.charCodeAt(0));
+    const cfg = JSON.parse(new TextDecoder().decode(bytes));
+    if(cfg.base) localStorage.setItem('zw_api_base', cfg.base);
+    if(cfg.key) localStorage.setItem('zw_api_key', cfg.key);
+    if(cfg.model) localStorage.setItem('zw_model', cfg.model);
+    history.replaceState(null, '', location.pathname+location.search);
+    setTimeout(()=>alert('MiniMax 已配置到这台手机'), 250);
+  }catch(e){
+    console.error('配置导入失败', e);
+  }
+})();
+
 $('#targetYear').value = new Date().getFullYear();
 
 function fmtStar(s){ return s.name + (s.brightnessRaw ? '('+s.brightnessRaw+')' : '') + (s.siHua ? '化'+s.siHua : ''); }
@@ -97,11 +121,13 @@ $('#btnSaveKey').onclick = ()=>{
   localStorage.setItem('zw_api_base', $('#apiBase').value.trim());
   localStorage.setItem('zw_api_key', $('#apiKey').value.trim());
   localStorage.setItem('zw_model', $('#model').value.trim());
+  refreshKeyState();
   alert('已存到本机浏览器');
 };
 $('#apiBase').value = localStorage.getItem('zw_api_base')||'';
 $('#apiKey').value = localStorage.getItem('zw_api_key')||'';
 $('#model').value = localStorage.getItem('zw_model')||'MiniMax-M3.1-Flash';
+refreshKeyState();
 
 $('#btnAI').onclick = async ()=>{
   if(!LAST) return alert('先排盘');
@@ -113,11 +139,17 @@ $('#btnAI').onclick = async ()=>{
   try{
     const res = await fetch(base+'/chat/completions', { method:'POST',
       headers:{'Content-Type':'application/json','Authorization':'Bearer '+key},
-      body: JSON.stringify({ model:model, stream:false, messages:[{role:'user',content:promptText()}] }) });
-    if(!res.ok) throw new Error('接口返回 '+res.status);
+      body: JSON.stringify({ model:model, stream:false, max_tokens:4096, temperature:0.3,
+        messages:[{role:'user',content:promptText()}] }) });
+    if(!res.ok){
+      const raw = await res.text();
+      let message = raw;
+      try{ const j=JSON.parse(raw); message=(j.error&&j.error.message)||j.message||raw; }catch(e){}
+      throw new Error('接口返回 '+res.status+'：'+message);
+    }
     const j = await res.json();
     out.textContent = (j.choices && j.choices[0] && j.choices[0].message && j.choices[0].message.content) || JSON.stringify(j).slice(0,500);
-  }catch(e){ out.textContent = '解读失败：'+e.message+'\n\n若浏览器被跨域限制，可用「复制解读请求」发给 Codex。'; }
+  }catch(e){ out.textContent = '解读失败：'+e.message+'\n\n可点「复制解读请求」发给 Codex；若是额度上限，请升级 MiniMax Token Plan 或购买积分。'; }
 };
 
 $('#btnSearch').onclick = ()=>{
